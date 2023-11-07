@@ -9,6 +9,7 @@ import {
 
   type RootStackParamList ={
     Home: undefined;
+    Collection: undefined;
   }
 
 type Props = NativeStackScreenProps<RootStackParamList, `Home`>
@@ -20,7 +21,7 @@ function Home({navigation}: Props): JSX.Element {
     <View style={styles.screenContainer}>
         <View style={styles.menuButtonContainer}>
             <View style={styles.menuButtonContainerRow}>
-            <Pressable style={[styles.menuButton, {backgroundColor:'red'}]} onPress={() => navigation.navigate('Home')}>
+            <Pressable style={[styles.menuButton, {backgroundColor:'red'}]} onPress={() => navigation.navigate('Collection')}>
                 <Text style={styles.menuButtonText}>Collection</Text>
             </Pressable>
             </View>
