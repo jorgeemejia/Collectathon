@@ -1,0 +1,1 @@
+- Allow people to search for a game on AddToCollection screen and allow them to add it to their collection
