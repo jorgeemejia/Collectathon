@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import Collection from './screens/Collection';
 import AddToCollection from './screens/AddToCollection';
+import AppContext from './AppContext';
+
 type RootStackParamList = {
   Home: undefined;
   Collection: undefined;
@@ -11,24 +13,30 @@ type RootStackParamList = {
 }
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
-
-
-
 function App(): JSX.Element {
+  const [gameCollection, setGameCollection] = React.useState<any[]>([]);
+
+  const contextValue = {
+    gameCollection,
+    setGameCollection
+  };
+
   return (
-    <NavigationContainer>
-      <RootStack.Navigator>
-        <RootStack.Screen name="Home"
-                          component={ Home }
-                          options={{title: 'Collectathon'}}/>
-        <RootStack.Screen name="Collection"
-                          component={ Collection }
-                          options={{title: 'My Collection'}}/>
-        <RootStack.Screen name="AddToCollection"
-                          component={ AddToCollection }
-                          options={{title: 'My Collection (Add)'}}/>
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <AppContext.Provider value={contextValue}>
+      <NavigationContainer>
+        <RootStack.Navigator>
+          <RootStack.Screen name="Home"
+                            component={ Home }
+                            options={{title: 'Collectathon'}}/>
+          <RootStack.Screen name="Collection"
+                            component={ Collection }
+                            options={{title: 'My Collection'}}/>
+          <RootStack.Screen name="AddToCollection"
+                            component={ AddToCollection }
+                            options={{title: 'My Collection (Add)'}}/>
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </AppContext.Provider>
   );
 }
 

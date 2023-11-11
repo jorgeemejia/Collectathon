@@ -10,14 +10,21 @@ import {
   import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesomeIcon from 'react-native-fontawesome';
+import AppContext from '../AppContext';
 
 
 
-  type RootStackParamList ={
+type RootStackParamList ={
     Home: undefined;
     Collection: undefined;
     AddToCollection: undefined;
-  }
+}
+type game = {
+    slug: string;
+    background_image: string;
+    name: string;
+};
+type gameCollection = game[];
 
 type Props = NativeStackScreenProps<RootStackParamList, `Collection`>
 
@@ -533,12 +540,16 @@ const Item = ({backgroundImage, name}: ItemProps) => (
 
 function Collection({navigation}: Props): JSX.Element {
     const [search, onChangeSearch] = React.useState('Useless Text');
+    const context = React.useContext(AppContext) as {
+        gameCollection: gameCollection;
+        setGameCollection: React.Dispatch<React.SetStateAction<gameCollection>>;
+      };
 
 
   return (
     <View style={styles.screenContainer}>
         <FlatList
-        data={DATA}
+        data={context.gameCollection}
         renderItem={({item}) => <Item backgroundImage={item.background_image} name={item.name} />}
         keyExtractor={item => item.slug}
         />
