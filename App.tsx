@@ -33,7 +33,7 @@ function App(): JSX.Element {
                             options={{title: 'My Collection'}}/>
           <RootStack.Screen name="AddToCollection"
                             component={ AddToCollection }
-                            options={{title: 'My Collection (Add)'}}/>
+                            options={{title: 'My Collection'}}/>
         </RootStack.Navigator>
       </NavigationContainer>
     </AppContext.Provider>

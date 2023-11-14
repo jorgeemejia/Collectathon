@@ -61,14 +61,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         width: '80%',
         height: '50%',
-        marginTop: 15,
+        marginTop: 30,
+        borderRadius: 10
     },
     allGameButtonsContainer : {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         gap: 20,
-        marginTop: 10
+        marginTop: 20
     },
     dPad : {
         width: 100,

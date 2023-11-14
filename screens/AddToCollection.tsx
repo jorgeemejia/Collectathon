@@ -30,7 +30,7 @@ import AppContext from '../AppContext';
 type Props = NativeStackScreenProps<RootStackParamList, `AddToCollection`>
 
 function AddToCollection({navigation}: Props): JSX.Element {
-    const [search, onChangeSearch] = React.useState('Mario');
+    const [search, onChangeSearch] = React.useState('');
     const [gameSearchResults, setGameSearchResults] = React.useState<any[]>([])
     const context = React.useContext(AppContext) as {
       gameCollection: gameCollection;
@@ -61,18 +61,18 @@ function AddToCollection({navigation}: Props): JSX.Element {
     }
 
     const Item = ({backgroundImage, name, slug}: ItemProps) => (
-        <View style={styles.itemContainer}>
+        <Pressable style={styles.itemContainer} onPress={() => addGameToCollection({ backgroundImage, name, slug })}>
           <Image
             style={styles.backgroundImage}
             source={{
               uri: backgroundImage,
             }}
           />
-          <Text>{name}</Text>
-          <Pressable style={styles.addPressable} onPress={() => addGameToCollection({ backgroundImage, name, slug })}>
+          <Text style={styles.itemText}>{name}</Text>
+          {/* <Pressable style={styles.addPressable} onPress={() => addGameToCollection({ backgroundImage, name, slug })}>
             <Text>Add</Text>
-          </Pressable>
-        </View>
+          </Pressable> */}
+        </Pressable>
       );
 
   return (
@@ -83,7 +83,7 @@ function AddToCollection({navigation}: Props): JSX.Element {
             onChangeText={onChangeSearch}
             value={search}
         />
-        <Icon name="search" size={30} color="#900" onPress={getGamesFromAPI}/>
+        <Icon name="search" size={30} color="#70416d" onPress={getGamesFromAPI}/>
       </View>
       {gameSearchResults.length != 0 ? 
       (<FlatList
@@ -102,29 +102,44 @@ function AddToCollection({navigation}: Props): JSX.Element {
 
 const styles = StyleSheet.create({
     screenContainer : {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#B08FC7'
     },
     searchBarContainer : {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     input: {
         height: 40,
         margin: 12,
         borderWidth: 1,
         padding: 10,
+        width: '80%',
+        backgroundColor: '#f5f5f5',
       },
     itemContainer : {
       flexDirection: 'row',
       alignItems:  'center',
-      gap: 50
+      gap: 50,
+      backgroundColor: '#f5f5f5',
+      margin: 10,
+      borderRadius: 10
     },
     backgroundImage : {
-        width: 100,
-        height: 100
+      width: 100,
+      height: 100,
+      borderRadius: 10
     },
+    itemText : {
+      fontSize: 15
+  },
     addPressable :{
-      backgroundColor: 'blue'
+      backgroundColor: '#70416d',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 8,
+      justifyContent: 'center',
+      alignItems: 'center',
     }
 
 
