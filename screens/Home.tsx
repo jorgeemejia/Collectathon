@@ -21,6 +21,7 @@ function Home({navigation}: Props): JSX.Element {
 
   return (
     <View style={styles.screenContainer}>
+        <View style={styles.gameScreen}></View>
         <View style={styles.allGameButtonsContainer}>
             <Dpad style={styles.dPad}/>
             <View style={styles.menuButtonsContainer}>
@@ -53,13 +54,21 @@ function Home({navigation}: Props): JSX.Element {
 const styles = StyleSheet.create({
     screenContainer : {
         flex: 1,
-        backgroundColor: '#B08FC7'
+        backgroundColor: '#B08FC7',
+        alignItems: 'center'
+    },
+    gameScreen : {
+        backgroundColor: 'black',
+        width: '80%',
+        height: '50%',
+        marginTop: 15,
     },
     allGameButtonsContainer : {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 20
+        gap: 20,
+        marginTop: 10
     },
     dPad : {
         width: 100,
