@@ -6,13 +6,13 @@ import {
     Text,
     Image,
     FlatList,
-    Pressable
+    Pressable,
+    Modal
   } from 'react-native';
   import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesomeIcon from 'react-native-fontawesome';
 import AppContext from '../AppContext';
-
 
 
   type RootStackParamList ={
@@ -32,6 +32,9 @@ type Props = NativeStackScreenProps<RootStackParamList, `AddToCollection`>
 function AddToCollection({navigation}: Props): JSX.Element {
     const [search, onChangeSearch] = React.useState('');
     const [gameSearchResults, setGameSearchResults] = React.useState<any[]>([])
+    const [showModal, setShowModal] = React.useState(false);
+    const [selectedItem, setSelectedItem] = React.useState<game | null>(null);
+
     const context = React.useContext(AppContext) as {
       gameCollection: gameCollection;
       setGameCollection: React.Dispatch<React.SetStateAction<gameCollection>>;
@@ -48,20 +51,23 @@ function AddToCollection({navigation}: Props): JSX.Element {
         }
     }
     type ItemProps = {backgroundImage: string, name: string, slug: string};
-    const addGameToCollection =  ({backgroundImage, name, slug}: ItemProps) => {
-      let newGameCollection = [...context.gameCollection]
-      let newGame = {
-        "slug" : slug,
-        "background_image" : backgroundImage,
-        "name" : name
-      }
-      newGameCollection = [...newGameCollection, newGame]
-      context.setGameCollection(newGameCollection);
-      console.log('Added Game To Collection Successfully')
-    }
 
+    const handleConfirm =  () => {
+      if (selectedItem !== null) {
+        let newGameCollection = [...context.gameCollection];
+        newGameCollection = [...newGameCollection, selectedItem];
+        context.setGameCollection(newGameCollection);
+        setSelectedItem(null);
+        setShowModal(false);
+        console.log('Added Game To Collection Successfully');
+      }
+    }
+    const handleCancel =  () => {
+      setSelectedItem(null);
+      setShowModal(false);
+    }
     const Item = ({backgroundImage, name, slug}: ItemProps) => (
-        <Pressable style={styles.itemContainer} onPress={() => addGameToCollection({ backgroundImage, name, slug })}>
+        <Pressable style={styles.itemContainer} onPress={() => openModal({ backgroundImage, name, slug })}>
           <Image
             style={styles.backgroundImage}
             source={{
@@ -69,11 +75,19 @@ function AddToCollection({navigation}: Props): JSX.Element {
             }}
           />
           <Text style={styles.itemText}>{name}</Text>
-          {/* <Pressable style={styles.addPressable} onPress={() => addGameToCollection({ backgroundImage, name, slug })}>
-            <Text>Add</Text>
-          </Pressable> */}
         </Pressable>
       );
+
+    const openModal = ({backgroundImage, name, slug}: ItemProps) => {
+      setShowModal(true);
+      setSelectedItem(
+        {
+          "slug" : slug,
+          "background_image" : backgroundImage,
+          "name" : name
+        }
+      )
+    };
 
   return (
     <View style={styles.screenContainer}>
@@ -96,6 +110,27 @@ function AddToCollection({navigation}: Props): JSX.Element {
         <View></View>
        )
       }
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>Add game to collection?</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={handleConfirm}>
+              <Text style={styles.textStyle}>Confirm</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={handleCancel}>
+              <Text style={styles.textStyle}>Cancel</Text>
+            </Pressable>
+          </View>
+      </Modal>
     </View>
   );
 }
@@ -140,7 +175,38 @@ const styles = StyleSheet.create({
       borderRadius: 8,
       justifyContent: 'center',
       alignItems: 'center',
-    }
+    },
+    modalContainer : {
+      margin: 20,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+      width: 0,
+      height: 2,    }
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: 'center',
+    },
+    textStyle: {
+      color: 'white',
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+    },
+    buttonOpen: {
+      backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+      backgroundColor: '#2196F3',
+    },
 
 
 });

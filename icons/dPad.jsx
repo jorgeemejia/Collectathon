@@ -1,8 +1,9 @@
 // MySvgComponent.js
 import React from 'react';
 import { SvgXml } from 'react-native-svg';
+import { Pressable } from 'react-native';
 
-const Dpad = ({style}) => {
+const Dpad = ({style, onPress}) => {
   const svgString = `
   <svg width="54" height="50" viewBox="0 0 54 50" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M9 15H19V5C19 3.67392 19.5268 2.40215 20.4645 1.46447C21.4021 0.526784 22.6739 0 24 0H34C35.3261 0 36.5979 0.526784 37.5355 1.46447C38.4732 2.40215 39 3.67392 39 5V15H49C50.3261 15 51.5979 15.5268 52.5355 16.4645C53.4732 17.4021 54 18.6739 54 20V30C54 31.3261 53.4732 32.5979 52.5355 33.5355C51.5979 34.4732 50.3261 35 49 35H39V45C39 46.3261 38.4732 47.5979 37.5355 48.5355C36.5979 49.4732 35.3261 50 34 50H24C22.6739 50 21.4021 49.4732 20.4645 48.5355C19.5268 47.5979 19 46.3261 19 45V35H9C7.67392 35 6.40215 34.4732 5.46447 33.5355C4.52678 32.5979 4 31.3261 4 30V20C4 18.6739 4.52678 17.4021 5.46447 16.4645C6.40215 15.5268 7.67392 15 9 15Z" fill="#696969"/>
@@ -17,7 +18,9 @@ const Dpad = ({style}) => {
   `;
 
   return (
-    <SvgXml xml={svgString} width={style.width} height={style.height} />
+    <Pressable onPress={onPress}>
+      <SvgXml xml={svgString} width={style.width} height={style.height} />
+    </Pressable>
   );
 };
 

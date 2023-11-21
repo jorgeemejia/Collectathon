@@ -7,11 +7,12 @@ import {
   } from 'react-native';
   import type { NativeStackScreenProps } from '@react-navigation/native-stack'
   import Dpad from '../icons/dPad';
-  import LinearGradient from 'react-native-linear-gradient';
+  import Gif from 'react-native-gif';
 
   type RootStackParamList ={
     Home: undefined;
     Collection: undefined;
+    About:  undefined;
   }
 
 type Props = NativeStackScreenProps<RootStackParamList, `Home`>
@@ -21,9 +22,14 @@ function Home({navigation}: Props): JSX.Element {
 
   return (
     <View style={styles.screenContainer}>
-        <View style={styles.gameScreen}></View>
+        <View style={styles.gameScreen}>
+        {/* <Gif
+            style={{ width: '100%', height: '100%' }}
+            source={{ uri: 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' }}
+            /> */}
+        </View>
         <View style={styles.allGameButtonsContainer}>
-            <Dpad style={styles.dPad}/>
+            <Dpad style={styles.dPad} onPress={() => navigation.navigate('About')}/>
             <View style={styles.menuButtonsContainer}>
                 <View style={styles.menuButtonContainerRow}>
                 <Pressable style={[styles.menuButton, {backgroundColor:'#FF0000'}]} onPress={() => navigation.navigate('Collection')}>

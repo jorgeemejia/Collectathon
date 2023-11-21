@@ -4,12 +4,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import Collection from './screens/Collection';
 import AddToCollection from './screens/AddToCollection';
+import About from './screens/About';
 import AppContext from './AppContext';
 
 type RootStackParamList = {
   Home: undefined;
   Collection: undefined;
   AddToCollection: undefined;
+  About: undefined;
 }
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -34,6 +36,9 @@ function App(): JSX.Element {
           <RootStack.Screen name="AddToCollection"
                             component={ AddToCollection }
                             options={{title: 'My Collection'}}/>
+          <RootStack.Screen name="About"
+                            component={ About }
+                            options={{title: 'About'}}/>
         </RootStack.Navigator>
       </NavigationContainer>
     </AppContext.Provider>
