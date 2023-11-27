@@ -8,14 +8,33 @@ import {
   import type { NativeStackScreenProps } from '@react-navigation/native-stack'
   import Dpad from '../icons/dPad';
   import Gif from 'react-native-gif';
+  import Sound from 'react-native-sound';
 
-  type RootStackParamList ={
+type RootStackParamList ={
     Home: undefined;
     Collection: undefined;
     About:  undefined;
-  }
+}
 
 type Props = NativeStackScreenProps<RootStackParamList, `Home`>
+
+const buttonSound = new Sound('coinCollect.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+      console.log('Failed to load the coinCollect sound', error);
+    } else {
+      console.log('coinCollect sound loaded successfully');
+    }
+  });
+
+const playAudio = (sound: Sound) => {
+    sound.play((success) => {
+      if (success) {
+        console.log('Audio played successfully');
+      } else {
+        console.log('Audio playback failed');
+      }
+    });
+  }
 
 function Home({navigation}: Props): JSX.Element {
 
@@ -23,31 +42,43 @@ function Home({navigation}: Props): JSX.Element {
   return (
     <View style={styles.screenContainer}>
         <View style={styles.gameScreen}>
-        {/* <Gif
-            style={{ width: '100%', height: '100%' }}
-            source={{ uri: 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' }}
-            /> */}
         </View>
         <View style={styles.allGameButtonsContainer}>
             <Dpad style={styles.dPad} onPress={() => navigation.navigate('About')}/>
             <View style={styles.menuButtonsContainer}>
                 <View style={styles.menuButtonContainerRow}>
-                <Pressable style={[styles.menuButton, {backgroundColor:'#FF0000'}]} onPress={() => navigation.navigate('Collection')}>
+                <Pressable style={[styles.menuButton, {backgroundColor:'#FF0000'}]} 
+                           onPress={() => {
+                                            navigation.navigate('Collection');
+                                            playAudio(buttonSound);
+                                          }}>
                     <Text style={styles.menuButtonText}>Collection</Text>
                 </Pressable>
                 </View>
                 <View style={styles.menuButtonContainerRow}>
-                    <Pressable style={[styles.menuButton, {backgroundColor:'#00FF00'}]} onPress={() => navigation.navigate('Home')}>
+                    <Pressable style={[styles.menuButton, {backgroundColor:'#00FF00'}]} 
+                               onPress={() => {
+                                navigation.navigate('Home')
+                                playAudio(buttonSound);
+                                }}>
                         <Text style={styles.menuButtonText}>Wishlist</Text>
                     </Pressable>
                     <View> 
                     </View>
-                    <Pressable style={[styles.menuButton, {backgroundColor:'#1C5D99'}]} onPress={() => navigation.navigate('Home')}>
+                    <Pressable style={[styles.menuButton, {backgroundColor:'#1C5D99'}]} 
+                               onPress={() => {
+                                navigation.navigate('Home')
+                                playAudio(buttonSound);
+                                }}>
                         <Text style={styles.menuButtonText}>Explore</Text>
                     </Pressable>
                 </View>
                 <View style={styles.menuButtonContainerRow}>
-                    <Pressable style={[styles.menuButton, {backgroundColor:'#FFFF00'}]} onPress={() => navigation.navigate('Home')}>
+                    <Pressable style={[styles.menuButton, {backgroundColor:'#FFFF00'}]} 
+                               onPress={() => {
+                                navigation.navigate('Home')
+                                playAudio(buttonSound);
+                                }}>
                         <Text style={styles.menuButtonText}>Review</Text>
                     </Pressable>
                 </View>
