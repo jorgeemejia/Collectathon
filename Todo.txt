@@ -1,2 +1,4 @@
-- allow people to add a game to their collection
--  LOG  VirtualizedList: You have a large list that is slow to update - make sure your renderItem function renders components that follow React performance best practices like PureComponent, shouldComponentUpdate, etc. {"contentLength": 2000, "dt": 849, "prevDt": 1401}
+- update write review css to have purple background
+- add button to add review
+- add button to cancel review
+- add functionality to actually add the review

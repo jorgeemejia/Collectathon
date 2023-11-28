@@ -14,6 +14,9 @@ type RootStackParamList ={
     Home: undefined;
     Collection: undefined;
     About:  undefined;
+    Explore: undefined;
+    Wishlist: undefined;
+    Review: undefined;
 }
 
 type Props = NativeStackScreenProps<RootStackParamList, `Home`>
@@ -58,7 +61,7 @@ function Home({navigation}: Props): JSX.Element {
                 <View style={styles.menuButtonContainerRow}>
                     <Pressable style={[styles.menuButton, {backgroundColor:'#00FF00'}]} 
                                onPress={() => {
-                                navigation.navigate('Home')
+                                navigation.navigate('Wishlist')
                                 playAudio(buttonSound);
                                 }}>
                         <Text style={styles.menuButtonText}>Wishlist</Text>
@@ -67,7 +70,7 @@ function Home({navigation}: Props): JSX.Element {
                     </View>
                     <Pressable style={[styles.menuButton, {backgroundColor:'#1C5D99'}]} 
                                onPress={() => {
-                                navigation.navigate('Home')
+                                navigation.navigate('Explore')
                                 playAudio(buttonSound);
                                 }}>
                         <Text style={styles.menuButtonText}>Explore</Text>
@@ -76,7 +79,7 @@ function Home({navigation}: Props): JSX.Element {
                 <View style={styles.menuButtonContainerRow}>
                     <Pressable style={[styles.menuButton, {backgroundColor:'#FFFF00'}]} 
                                onPress={() => {
-                                navigation.navigate('Home')
+                                navigation.navigate('Review')
                                 playAudio(buttonSound);
                                 }}>
                         <Text style={styles.menuButtonText}>Review</Text>

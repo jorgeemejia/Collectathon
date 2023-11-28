@@ -18,6 +18,7 @@ type RootStackParamList ={
     Home: undefined;
     Collection: undefined;
     AddToCollection: undefined;
+    Wishlist: undefined;
     Explore: undefined;
 }
 type game = {
@@ -26,8 +27,9 @@ type game = {
     name: string;
 };
 type gameCollection = game[];
+type gameWishlist = game[];
 
-type Props = NativeStackScreenProps<RootStackParamList, `Collection`>
+type Props = NativeStackScreenProps<RootStackParamList, `Wishlist`>
 
 type ItemProps = {backgroundImage: string, name: string};
 const Item = ({backgroundImage, name}: ItemProps) => (
@@ -42,18 +44,20 @@ const Item = ({backgroundImage, name}: ItemProps) => (
     </View>
   );
 
-function Collection({navigation}: Props): JSX.Element {
+function Wishlist({navigation}: Props): JSX.Element {
     const [search, onChangeSearch] = React.useState('Useless Text');
     const context = React.useContext(AppContext) as {
         gameCollection: gameCollection;
         setGameCollection: React.Dispatch<React.SetStateAction<gameCollection>>;
+        gameWishlist: gameWishlist;
+        setGameWishlist: React.Dispatch<React.SetStateAction<gameWishlist>>;
       };
 
 
   return (
     <View style={styles.screenContainer}>
         <FlatList
-        data={context.gameCollection}
+        data={context.gameWishlist}
         renderItem={({item}) => <Item backgroundImage={item.background_image} name={item.name} />}
         keyExtractor={item => item.slug}
         />
@@ -99,4 +103,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Collection;
+export default Wishlist;

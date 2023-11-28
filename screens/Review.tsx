@@ -19,46 +19,42 @@ type RootStackParamList ={
     Collection: undefined;
     AddToCollection: undefined;
     Explore: undefined;
+    Review: undefined;
+    WriteReview: undefined;
 }
-type game = {
-    slug: string;
-    background_image: string;
-    name: string;
+type gameReview = {
+    title: string;
+    rating: string;
+    review: string;
 };
-type gameCollection = game[];
+type gameReviews = gameReview[];
 
-type Props = NativeStackScreenProps<RootStackParamList, `Collection`>
+type Props = NativeStackScreenProps<RootStackParamList, `Review`>
 
-type ItemProps = {backgroundImage: string, name: string};
-const Item = ({backgroundImage, name}: ItemProps) => (
+type ItemProps = {title: string, rating: string};
+const Item = ({title, rating}: ItemProps) => (
     <View style={styles.itemContainer}>
-      <Image
-        style={styles.backgroundImage}
-        source={{
-          uri: backgroundImage,
-        }}
-      />
-      <Text style={styles.itemText}>{name}</Text>
+      <Text style={styles.itemText}>{title}</Text>
+      <Text style={styles.itemText}>{rating}</Text>
     </View>
   );
 
-function Collection({navigation}: Props): JSX.Element {
-    const [search, onChangeSearch] = React.useState('Useless Text');
+function Review({navigation}: Props): JSX.Element {
     const context = React.useContext(AppContext) as {
-        gameCollection: gameCollection;
-        setGameCollection: React.Dispatch<React.SetStateAction<gameCollection>>;
+        gameReviews: gameReviews;
+        setGameReviews: React.Dispatch<React.SetStateAction<gameReviews>>;
       };
 
 
   return (
     <View style={styles.screenContainer}>
         <FlatList
-        data={context.gameCollection}
-        renderItem={({item}) => <Item backgroundImage={item.background_image} name={item.name} />}
-        keyExtractor={item => item.slug}
+        data={context.gameReviews}
+        renderItem={({item}) => <Item title={item.title} rating={item.rating} />}
+        keyExtractor={item => item.title}
         />
         <View style={styles.plusContainer}>
-            <Icon name="plus" size={75} color="#70416d" onPress={() => navigation.navigate('Explore')}/>
+            <Icon name="plus" size={75} color="#70416d" onPress={() => navigation.navigate('WriteReview')}/>
         </View>
     </View>
   );
@@ -80,7 +76,8 @@ const styles = StyleSheet.create({
       gap: 50,
       backgroundColor: '#f5f5f5',
       margin: 10,
-      borderRadius: 10
+      borderRadius: 10,
+      padding: 10
     },
     backgroundImage : {
         width: 100,
@@ -99,4 +96,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Collection;
+export default Review;

@@ -19,6 +19,7 @@ import AppContext from '../AppContext';
     Home: undefined;
     Collection: undefined;
     AddToCollection: undefined;
+    Explore: undefined;
   }
   type game = {
     slug: string;
@@ -28,9 +29,9 @@ import AppContext from '../AppContext';
   type gameCollection = game[];
   type gameWishlist = game[];
 
-type Props = NativeStackScreenProps<RootStackParamList, `AddToCollection`>
+type Props = NativeStackScreenProps<RootStackParamList, `Explore`>
 
-function AddToCollection({navigation}: Props): JSX.Element {
+function Explore({navigation}: Props): JSX.Element {
     const [search, onChangeSearch] = React.useState('');
     const [gameSearchResults, setGameSearchResults] = React.useState<any[]>([])
     const [showModal, setShowModal] = React.useState(false);
@@ -55,7 +56,7 @@ function AddToCollection({navigation}: Props): JSX.Element {
     }
     type ItemProps = {backgroundImage: string, name: string, slug: string};
 
-    const handleConfirm =  () => {
+    const addGameToCollection =  () => {
       if (selectedItem !== null) {
         let newGameCollection = [...context.gameCollection];
         newGameCollection = [...newGameCollection, selectedItem];
@@ -69,7 +70,7 @@ function AddToCollection({navigation}: Props): JSX.Element {
       if (selectedItem !== null) {
         let newGameWishlist = [...context.gameWishlist];
         newGameWishlist = [...newGameWishlist, selectedItem];
-        context.setGameCollection(newGameWishlist);
+        context.setGameWishlist(newGameWishlist);
         setSelectedItem(null);
         setShowModal(false);
         console.log('Added Game To Wishlist Successfully');
@@ -131,22 +132,24 @@ function AddToCollection({navigation}: Props): JSX.Element {
           setShowModal(!showModal);
         }}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>Add game to collection or wishlist?</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={handleConfirm}>
-              <Text style={styles.textStyle}>Collection</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={addGameToWishlist}>
-              <Text style={styles.textStyle}>Wishlist</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={handleCancel}>
-              <Text style={styles.textStyle}>Cancel</Text>
-            </Pressable>
+            <Text style={styles.modalText}>Add <Text style={styles.boldText}>{selectedItem?.name}</Text> to collection or wishlist?</Text>
+            <View style={styles.modalButtonContainer}>
+                <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={addGameToCollection}>
+                <Text style={styles.textStyle}>Collection</Text>
+                </Pressable>
+                <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={addGameToWishlist}>
+                <Text style={styles.textStyle}>Wishlist</Text>
+                </Pressable>
+                <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={handleCancel}>
+                <Text style={styles.textStyle}>Cancel</Text>
+                </Pressable>
+            </View>
           </View>
       </Modal>
     </View>
@@ -196,7 +199,7 @@ const styles = StyleSheet.create({
     },
     modalContainer : {
       margin: 20,
-      backgroundColor: 'white',
+      backgroundColor: '#70416d',
       borderRadius: 20,
       padding: 35,
       alignItems: 'center',
@@ -205,10 +208,19 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,    }
     },
+    modalButtonContainer : {
+        flexDirection: 'row',
+        gap: 5,
+    },
     modalText: {
       marginBottom: 15,
       textAlign: 'center',
+      color: 'white'
     },
+    boldText: {
+        fontWeight: 'bold',
+        // Other styles for bold text
+      },
     textStyle: {
       color: 'white',
       fontWeight: 'bold',
@@ -229,4 +241,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AddToCollection;
+export default Explore;
