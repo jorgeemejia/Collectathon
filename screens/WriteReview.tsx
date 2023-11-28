@@ -21,7 +21,7 @@ type RootStackParamList ={
     AddToCollection: undefined;
     Explore: undefined;
     Review: undefined;
-    WriteReview: undefined;
+    WriteReview: {propTitle: string, propRating: string, propReview: string};
 }
 type gameReview = {
     title: string;
@@ -32,14 +32,15 @@ type gameReviews = gameReview[];
 
 type Props = NativeStackScreenProps<RootStackParamList, `WriteReview`>
 
-function WriteReview({navigation}: Props): JSX.Element {
+function WriteReview({navigation, route}: Props): JSX.Element {
   const context = React.useContext(AppContext) as {
     gameReviews: gameReviews;
     setGameReviews: React.Dispatch<React.SetStateAction<gameReviews>>;
   };
-  const [title, setTitle] = React.useState('');
-  const [rating, setRating ] = React.useState('');
-  const [review, setReview] = React.useState('');
+  const {propTitle, propRating, propReview} = route.params;
+  const [title, setTitle] = React.useState(propTitle);
+  const [rating, setRating ] = React.useState(propRating);
+  const [review, setReview] = React.useState(propReview);
 
   const addReview =  () => {
     if (title !== '' && rating !== '' && review !== '') {
@@ -65,23 +66,37 @@ function WriteReview({navigation}: Props): JSX.Element {
     setReview('');
   }
 
+  const deleteReview = () => {
+    const updatedGameReviews = context.gameReviews.filter(
+      (review) => review.title !== title
+    );
+    context.setGameReviews(updatedGameReviews);
+    navigation.navigate('Review');
+  }
+
   return (
     <View style={styles.container}>
+      <Text>Title</Text>
       <TextInput
         style={styles.smallInput}
-        placeholder="Title"
+        placeholder='Title'
+        value={title}
         onChangeText={setTitle}
       />
+      <Text>Rating</Text>
       <TextInput
         style={styles.smallInput}
-        placeholder="Rating"
+        placeholder='Rating'
         onChangeText={setRating}
+        value={rating}
       />
+      <Text>Review</Text>
       <TextInput
         style={styles.largeInput}
-        placeholder="Review"
+        placeholder='Review'
         multiline={true}
         onChangeText={setReview}
+        value={review}
       />
       <View style={styles.buttonContainer}>
                 <Pressable
@@ -98,6 +113,11 @@ function WriteReview({navigation}: Props): JSX.Element {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => navigation.navigate('Review')}>
                 <Text style={styles.textStyle}>Cancel</Text>
+                </Pressable>
+                <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={deleteReview}>
+                <Text style={styles.textStyle}>Delete</Text>
                 </Pressable>
             </View>
     </View>

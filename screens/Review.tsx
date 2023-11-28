@@ -5,7 +5,8 @@ import {
     TextInput,
     Text,
     Image,
-    FlatList
+    FlatList,
+    Pressable
   } from 'react-native';
   import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -20,7 +21,7 @@ type RootStackParamList ={
     AddToCollection: undefined;
     Explore: undefined;
     Review: undefined;
-    WriteReview: undefined;
+    WriteReview: {propTitle: string, propRating: string, propReview: string};
 }
 type gameReview = {
     title: string;
@@ -31,12 +32,18 @@ type gameReviews = gameReview[];
 
 type Props = NativeStackScreenProps<RootStackParamList, `Review`>
 
-type ItemProps = {title: string, rating: string};
-const Item = ({title, rating}: ItemProps) => (
-    <View style={styles.itemContainer}>
+type ItemProps = {title: string, rating: string, review: string, navigation:any};
+
+const Item = ({title, rating, review, navigation}: ItemProps) => (
+    <Pressable style={styles.itemContainer} onPress={() =>
+      navigation.push('WriteReview', {
+        propTitle: review,
+        propRating: rating,
+        propReview: title
+      })}>
       <Text style={styles.itemText}>{title}</Text>
       <Text style={styles.itemText}>{rating}</Text>
-    </View>
+    </Pressable>
   );
 
 function Review({navigation}: Props): JSX.Element {
@@ -50,11 +57,20 @@ function Review({navigation}: Props): JSX.Element {
     <View style={styles.screenContainer}>
         <FlatList
         data={context.gameReviews}
-        renderItem={({item}) => <Item title={item.title} rating={item.rating} />}
+        renderItem={({item}) => <Item title={item.title} rating={item.rating} review={item.review} navigation={navigation}/>}
         keyExtractor={item => item.title}
         />
         <View style={styles.plusContainer}>
-            <Icon name="plus" size={75} color="#70416d" onPress={() => navigation.navigate('WriteReview')}/>
+            <Icon name="plus" 
+                  size={75} 
+                  color="#70416d" 
+                  onPress={() =>
+                    navigation.push('WriteReview', {
+                      propTitle: '',
+                      propRating: '',
+                      propReview: ''
+                    })
+                  }/>
         </View>
     </View>
   );
